@@ -12,6 +12,7 @@ if (isset($_POST['username']) && isset($_POST['password'])
 	   return $data;
 	}
 
+
 	$username = validate($_POST['username']);
 	$password = validate($_POST['password']);
 
@@ -20,11 +21,12 @@ if (isset($_POST['username']) && isset($_POST['password'])
 
 	$user_data = 'username='. $username. '&name='. $name;
 
-
 	if (empty($username)) {
 		header("Location: signup.php?error=User Name is required&$user_data");
-	    exit();
+		
+		exit();
 	}else if(empty($password)){
+		
         header("Location: signup.php?error=Password is required&$user_data");
 	    exit();
 	}
@@ -32,25 +34,19 @@ if (isset($_POST['username']) && isset($_POST['password'])
         header("Location: signup.php?error=Re Password is required&$user_data");
 	    exit();
 	}
-
 	else if(empty($name)){
         header("Location: signup.php?error=Name is required&$user_data");
 	    exit();
 	}
-
 	else if($password !== $re_password){
         header("Location: signup.php?error=The confirmation password  does not match&$user_data");
 	    exit();
 	}
-
 	else{
-
 		// hashing the passwordword
         $password = md5($password);
-
 	    $sql = "SELECT * FROM users WHERE username='$username' ";
 		$result = mysqli_query($conn, $sql);
-
 		if (mysqli_num_rows($result) > 0) {
 			header("Location: signup.php?error=The username is taken try another&$user_data");
 	        exit();
